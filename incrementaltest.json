@@ -32,24 +32,6 @@
                                 "blob"
                             ]
                         }
-                    },
-                    {
-                        "name": "queueConnection",
-                        "properties": {
-                            "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex()].subscriptionId, parameters('storageAccounts')[copyIndex()].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]",
-                            "groupIds": [
-                                "queue"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "tableConnection",
-                        "properties": {
-                            "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex()].subscriptionId, parameters('storageAccounts')[copyIndex()].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]",
-                            "groupIds": [
-                                "table"
-                            ]
-                        }
                     }
                 ]
             }
