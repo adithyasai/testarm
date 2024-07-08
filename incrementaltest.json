@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "vnet": {
+        "type": "object"
+      },
+      "storageAccounts": {
+        "type": "array"
+      }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/privateEndpoints",
+        "apiVersion": "2021-05-01",
+        "name": "[concat(parameters('vnet').name, '-pe-', copyIndex('storageAccounts'))]",
+        "location": "[parameters('vnet').location]",
+        "properties": {
+          "subnet": {
+            "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+          },
+          "privateLinkServiceConnections": [
+            {
+              "name": "blobConnection",
+              "properties": {
+                "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex('storageAccounts')].subscriptionId, parameters('storageAccounts')[copyIndex('storageAccounts')].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex('storageAccounts')].name)]",
+                "groupIds": [
+                  "blob"
+                ]
+              }
+            },
+            {
+              "name": "queueConnection",
+              "properties": {
+                "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex('storageAccounts')].subscriptionId, parameters('storageAccounts')[copyIndex('storageAccounts')].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex('storageAccounts')].name)]",
+                "groupIds": [
+                  "queue"
+                ]
+              }
+            },
+            {
+              "name": "tableConnection",
+              "properties": {
+                "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex('storageAccounts')].subscriptionId, parameters('storageAccounts')[copyIndex('storageAccounts')].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex('storageAccounts')].name)]",
+                "groupIds": [
+                  "table"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+}
