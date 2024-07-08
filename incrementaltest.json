@@ -21,7 +21,7 @@
             },
             "properties": {
                 "subnet": {
-                    "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+                    "id": "[resourceId(parameters('vnet').subscriptionId, parameters('vnet').resourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
                 },
                 "privateLinkServiceConnections": [
                     {
@@ -47,7 +47,7 @@
             },
             "properties": {
                 "subnet": {
-                    "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+                    "id": "[resourceId(parameters('vnet').subscriptionId, parameters('vnet').resourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
                 },
                 "privateLinkServiceConnections": [
                     {
@@ -73,7 +73,7 @@
             },
             "properties": {
                 "subnet": {
-                    "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+                    "id": "[resourceId(parameters('vnet').subscriptionId, parameters('vnet').resourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
                 },
                 "privateLinkServiceConnections": [
                     {
