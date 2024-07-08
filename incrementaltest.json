@@ -13,10 +13,10 @@
         {
             "type": "Microsoft.Network/privateEndpoints",
             "apiVersion": "2021-05-01",
-            "name": "[concat(parameters('vnet').name, '-pe-', copyIndex())]",
+            "name": "[concat(parameters('vnet').name, '-pe-blob-', copyIndex())]",
             "location": "[parameters('vnet').location]",
             "copy": {
-                "name": "privateEndpointCopy",
+                "name": "privateEndpointBlobCopy",
                 "count": "[length(parameters('storageAccounts'))]"
             },
             "properties": {
@@ -30,6 +30,58 @@
                             "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex()].subscriptionId, parameters('storageAccounts')[copyIndex()].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]",
                             "groupIds": [
                                 "blob"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2021-05-01",
+            "name": "[concat(parameters('vnet').name, '-pe-queue-', copyIndex())]",
+            "location": "[parameters('vnet').location]",
+            "copy": {
+                "name": "privateEndpointQueueCopy",
+                "count": "[length(parameters('storageAccounts'))]"
+            },
+            "properties": {
+                "subnet": {
+                    "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+                },
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "queueConnection",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex()].subscriptionId, parameters('storageAccounts')[copyIndex()].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]",
+                            "groupIds": [
+                                "queue"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2021-05-01",
+            "name": "[concat(parameters('vnet').name, '-pe-table-', copyIndex())]",
+            "location": "[parameters('vnet').location]",
+            "copy": {
+                "name": "privateEndpointTableCopy",
+                "count": "[length(parameters('storageAccounts'))]"
+            },
+            "properties": {
+                "subnet": {
+                    "id": "[resourceId(parameters('vnet').subscriptionId, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnet').name, parameters('vnet').subnets[0].name)]"
+                },
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "tableConnection",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId(parameters('storageAccounts')[copyIndex()].subscriptionId, parameters('storageAccounts')[copyIndex()].resourceGroupName, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]",
+                            "groupIds": [
+                                "table"
                             ]
                         }
                     }
